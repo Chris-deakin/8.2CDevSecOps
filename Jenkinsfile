@@ -15,29 +15,28 @@ pipeline {
         }
 
         stage("Run Tests") {
-            steps{
-                sh 'npm test || true' //allows pipeline to continue despite test failures
+            steps {
+                sh 'npm test || true' // allows pipeline to continue despite test failures
+            }
+            post {
+                always {
+                    emailext(
+                        subject: "Test Stage - ${currentBuild.currentResult}",
+                        body: """ 
+                        Test stage completed. 
+                        Job: ${env.JOB_NAME}
+                        Build Num: ${env.BUILD_NUMBER}
+                        Status: ${currentBuild.currentResult}
+                        """,
+                        to: 'leec8156@gmail.com',
+                        attachLog: true
+                    )
+                }
             }
         }
-        post{
-            always{
-                emailext(
-                    subject: "Test Stage - ${currentBuild.currentResult}",
-                    body: """ 
-                    Test stage completed. 
-                    Job: ${env.JOB_NAME}
-                    Build Num: ${env.BUILD_NUMBER}
-                    Status: ${currentBuild.currentResult}
-                    """,
-                    to: 'leec8156@gmail.com',
-                    attachLog: true
 
-                )
-            }
-        }
-
-        stage("Generate Coverage Report"){
-            steps{
+        stage("Generate Coverage Report") {
+            steps {
                 sh 'npm run coverage || true'
             }
         }
@@ -47,21 +46,21 @@ pipeline {
                 sh 'npm audit || true'
             }
         }
-        
-        post{
-            always{
-                emailext(
-                    subject: "Test Stage - ${currentBuild.currentResult}",
-                    body: """ 
-                    Test stage completed. 
-                    Job: ${env.JOB_NAME}
-                    Build Num: ${env.BUILD_NUMBER}
-                    Status: ${currentBuild.currentResult}
-                    """,
-                    to: 'leec8156@gmail.com',
-                    attachLog: true
+    }
 
-                )
-            }
+    post {
+        always {
+            emailext(
+                subject: "Pipeline Completed - ${currentBuild.currentResult}",
+                body: """ 
+                Pipeline completed. 
+                Job: ${env.JOB_NAME}
+                Build Num: ${env.BUILD_NUMBER}
+                Status: ${currentBuild.currentResult}
+                """,
+                to: 'leec8156@gmail.com',
+                attachLog: true
+            )
+        }
     }
-    }
+}
