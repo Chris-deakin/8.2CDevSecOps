@@ -30,8 +30,7 @@ Job: ${env.JOB_NAME}
 Build Num: ${env.BUILD_NUMBER}
 Status: ${currentBuild.result ?: 'SUCCESS'}
 """,
-                        attachLog: true,
-                        credentialsId: 'gmail-smtp'
+                        attachLog: true
                     )
                 }
             }
@@ -59,8 +58,7 @@ Job: ${env.JOB_NAME}
 Build Num: ${env.BUILD_NUMBER}
 Status: ${currentBuild.result ?: 'SUCCESS'}
 """,
-                        attachLog: true,
-                        credentialsId: 'gmail-smtp'
+                        attachLog: true
                     )
                 }
             }
@@ -79,8 +77,7 @@ Job: ${env.JOB_NAME}
 Build Num: ${env.BUILD_NUMBER}
 Status: ${currentBuild.result ?: 'SUCCESS'}
 """,
-                attachLog: true,
-                credentialsId: 'gmail-smtp'
+                attachLog: true
             )
         }
     }
