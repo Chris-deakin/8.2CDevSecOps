@@ -21,7 +21,7 @@ pipeline {
             post {
                 always {
                     emailext(
-                        subject: "Run Test Stage - ${currentBuild.result == 'SUCCESS' ? 'SUCCESS' : 'UNSTABLE'}"
+                        subject: "Run Test Stage - ${currentBuild.result == 'SUCCESS' ? 'SUCCESS' : 'UNSTABLE'}",
                         body: """ 
                         Test stage completed. 
                         Job: ${env.JOB_NAME}
