@@ -21,13 +21,13 @@ pipeline {
             post {
                 always {
                     emailext(
-                        subject: "Run Test Stage - ${currentBuild.result == 'SUCCESS' ? 'SUCCESS' : 'UNSTABLE'}",
+                        subject: "Run Test Stage - ${currentBuild.result ?: 'SUCCESS'}",
                         body: """ 
-                        Test stage completed. 
-                        Job: ${env.JOB_NAME}
-                        Build Num: ${env.BUILD_NUMBER}
-                        Status: ${currentBuild.currentResult}
-                        """,
+Test stage completed. 
+Job: ${env.JOB_NAME}
+Build Num: ${env.BUILD_NUMBER}
+Status: ${currentBuild.result ?: 'SUCCESS'}
+""",
                         to: 'leec8156@gmail.com',
                         attachLog: true
                     )
@@ -45,19 +45,34 @@ pipeline {
             steps {
                 sh 'npm audit || true'
             }
+            post {
+                always {
+                    emailext(
+                        subject: "Security Scan Stage - ${currentBuild.result ?: 'SUCCESS'}",
+                        body: """ 
+Security Scan stage completed. 
+Job: ${env.JOB_NAME}
+Build Num: ${env.BUILD_NUMBER}
+Status: ${currentBuild.result ?: 'SUCCESS'}
+""",
+                        to: 'leec8156@gmail.com',
+                        attachLog: true
+                    )
+                }
+            }
         }
     }
 
     post {
         always {
             emailext(
-                subject: "Pipeline Completed - ${currentBuild.result == 'SUCCESS' ? 'SUCCESS' : 'UNSTABLE'},
+                subject: "Pipeline Completed - ${currentBuild.result ?: 'SUCCESS'}",
                 body: """ 
-                Pipeline completed. 
-                Job: ${env.JOB_NAME}
-                Build Num: ${env.BUILD_NUMBER}
-                Status: ${currentBuild.currentResult}
-                """,
+Pipeline completed. 
+Job: ${env.JOB_NAME}
+Build Num: ${env.BUILD_NUMBER}
+Status: ${currentBuild.result ?: 'SUCCESS'}
+""",
                 to: 'leec8156@gmail.com',
                 attachLog: true
             )
