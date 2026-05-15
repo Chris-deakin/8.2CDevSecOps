@@ -21,7 +21,7 @@ pipeline {
             post {
                 always {
                     emailext(
-                        from: 'leec8156@gmail.com',
+                        
                         to: 'leec8156@gmail.com',
                         subject: "Run Test Stage - ${currentBuild.result ?: 'SUCCESS'}",
                         body: """ 
@@ -49,7 +49,7 @@ Status: ${currentBuild.result ?: 'SUCCESS'}
             post {
                 always {
                     emailext(
-                        from: 'leec8156@gmail.com',
+                        
                         to: 'leec8156@gmail.com',
                         subject: "Security Scan Stage - ${currentBuild.result ?: 'SUCCESS'}",
                         body: """ 
@@ -68,7 +68,7 @@ Status: ${currentBuild.result ?: 'SUCCESS'}
     post {
         always {
             emailext(
-                from: 'leec8156@gmail.com',
+            
                 to: 'leec8156@gmail.com',
                 subject: "Pipeline Completed - ${currentBuild.result ?: 'SUCCESS'}",
                 body: """ 
